@@ -1,0 +1,51 @@
+name: webtechlabs
+
+# docker compose up
+# Copy .env.example to .env before the first run.
+
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is not set. Copy .env.example to .env}
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is not set. Copy .env.example to .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is not set. Copy .env.example to .env}
+    volumes:
+      # postgres 18 wants the mount at /var/lib/postgresql, not /var/lib/postgresql/data
+      - db-data:/var/lib/postgresql
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+    restart: unless-stopped
+
+  app:
+    image: webtechlabs-app-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: "8080"
+      ConnectionStrings__DriveTrackContext: ${ConnectionStrings__DriveTrackContext:?ConnectionStrings__DriveTrackContext is not set. Copy .env.example to .env}
+    volumes:
+      # source from the host, dotnet watch rebuilds on every edit
+      - ./WebtechnologiesLabs:/src/WebtechnologiesLabs
+      # hide the host's bin/obj (built for macOS) from the linux container
+      - /src/WebtechnologiesLabs/bin
+      - /src/WebtechnologiesLabs/obj
+      - nuget:/root/.nuget/packages
+    ports:
+      - "${APP_PORT:-8081}:8080"
+    restart: "no"
+
+volumes:
+  db-data:
+  nuget:

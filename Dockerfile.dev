@@ -1,0 +1,25 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0
+WORKDIR /src
+
+# restore first so packages are cached; the source itself comes from the mount
+COPY WebtechnologiesLabs/WebtechnologiesLabs.csproj WebtechnologiesLabs/
+RUN dotnet restore WebtechnologiesLabs/WebtechnologiesLabs.csproj
+
+# a bind mount from macOS sends no file events into the container, so watch has to poll
+ENV DOTNET_USE_POLLING_FILE_WATCHER=true \
+    ASPNETCORE_HTTP_PORTS=8080 \
+    DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+
+ENV DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER=1
+
+# the SDK builds this path with a backslash (obj\Debug/), dotnet watch doesn't normalize it on
+# linux and can't find the static web assets manifest, so css hot reload breaks
+ENV IntermediateOutputPath=obj/Debug/
+
+# don't set DOTNET_EnableDiagnostics=0 - hot reload sends its updates over that channel
+
+EXPOSE 8080
+
+ENTRYPOINT ["dotnet", "watch", "--non-interactive", \
+            "--project", "WebtechnologiesLabs/WebtechnologiesLabs.csproj", \
+            "run", "--urls", "http://0.0.0.0:8080"]
