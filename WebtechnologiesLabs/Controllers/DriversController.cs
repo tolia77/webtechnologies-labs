@@ -48,7 +48,7 @@ namespace WebtechnologiesLabs.Controllers
         // GET: Drivers/Create
         public IActionResult Create()
         {
-            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "Id");
+            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "LicensePlate");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace WebtechnologiesLabs.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "Id", driver.VehicleId);
+            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "LicensePlate", driver.VehicleId);
             return View(driver);
         }
 
@@ -82,7 +82,7 @@ namespace WebtechnologiesLabs.Controllers
             {
                 return NotFound();
             }
-            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "Id", driver.VehicleId);
+            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "LicensePlate", driver.VehicleId);
             return View(driver);
         }
 
@@ -118,7 +118,7 @@ namespace WebtechnologiesLabs.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "Id", driver.VehicleId);
+            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "LicensePlate", driver.VehicleId);
             return View(driver);
         }
 

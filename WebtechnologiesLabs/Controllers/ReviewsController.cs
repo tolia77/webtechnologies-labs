@@ -48,7 +48,7 @@ namespace WebtechnologiesLabs.Controllers
         // GET: Reviews/Create
         public IActionResult Create()
         {
-            ViewData["DeliveryId"] = new SelectList(_context.Deliveries, "Id", "Id");
+            ViewData["DeliveryId"] = new SelectList(_context.Deliveries, "Id", "Title");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace WebtechnologiesLabs.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DeliveryId"] = new SelectList(_context.Deliveries, "Id", "Id", review.DeliveryId);
+            ViewData["DeliveryId"] = new SelectList(_context.Deliveries, "Id", "Title", review.DeliveryId);
             return View(review);
         }
 
@@ -82,7 +82,7 @@ namespace WebtechnologiesLabs.Controllers
             {
                 return NotFound();
             }
-            ViewData["DeliveryId"] = new SelectList(_context.Deliveries, "Id", "Id", review.DeliveryId);
+            ViewData["DeliveryId"] = new SelectList(_context.Deliveries, "Id", "Title", review.DeliveryId);
             return View(review);
         }
 
@@ -118,7 +118,7 @@ namespace WebtechnologiesLabs.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DeliveryId"] = new SelectList(_context.Deliveries, "Id", "Id", review.DeliveryId);
+            ViewData["DeliveryId"] = new SelectList(_context.Deliveries, "Id", "Title", review.DeliveryId);
             return View(review);
         }
 

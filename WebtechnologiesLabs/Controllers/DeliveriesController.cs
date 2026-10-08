@@ -49,8 +49,8 @@ namespace WebtechnologiesLabs.Controllers
         // GET: Deliveries/Create
         public IActionResult Create()
         {
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id");
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Id");
+            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "FullName");
+            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "FullName");
             return View();
         }
 
@@ -67,8 +67,8 @@ namespace WebtechnologiesLabs.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", delivery.ClientId);
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Id", delivery.DriverId);
+            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "FullName", delivery.ClientId);
+            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "FullName", delivery.DriverId);
             return View(delivery);
         }
 
@@ -85,8 +85,8 @@ namespace WebtechnologiesLabs.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", delivery.ClientId);
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Id", delivery.DriverId);
+            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "FullName", delivery.ClientId);
+            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "FullName", delivery.DriverId);
             return View(delivery);
         }
 
@@ -122,8 +122,8 @@ namespace WebtechnologiesLabs.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Id", delivery.ClientId);
-            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "Id", delivery.DriverId);
+            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "FullName", delivery.ClientId);
+            ViewData["DriverId"] = new SelectList(_context.Drivers, "Id", "FullName", delivery.DriverId);
             return View(delivery);
         }
 
