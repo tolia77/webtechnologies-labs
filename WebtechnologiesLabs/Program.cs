@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebtechnologiesLabs.Data;
+using WebtechnologiesLabs.Models;
 
 // store DateTime without converting it to UTC
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -13,6 +14,13 @@ builder.Services.AddDbContext<DriveTrackContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DriveTrackContext")));
 
 var app = builder.Build();
+
+// fill the database with test data
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    SeedData.Initialize(services);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
