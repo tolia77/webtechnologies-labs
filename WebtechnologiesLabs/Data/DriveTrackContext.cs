@@ -18,14 +18,12 @@ public class DriveTrackContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // one vehicle - one driver
         modelBuilder.Entity<Driver>()
             .HasOne(d => d.Vehicle)
             .WithOne(v => v.Driver)
             .HasForeignKey<Driver>(d => d.VehicleId)
             .OnDelete(DeleteBehavior.SetNull);
 
-        // one delivery - one review
         modelBuilder.Entity<Review>()
             .HasOne(r => r.Delivery)
             .WithOne(d => d.Review)
