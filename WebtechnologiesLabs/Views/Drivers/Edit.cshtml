@@ -1,44 +1,44 @@
 @model WebtechnologiesLabs.Models.Driver
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit driver";
 }
 
-<h1>Edit</h1>
+<h1>Edit driver</h1>
 
-<h4>Driver</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
+            <div class="mb-3">
+                <label asp-for="FirstName" class="form-label"></label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
+            <div class="mb-3">
+                <label asp-for="LastName" class="form-label"></label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
+            <div class="mb-3">
+                <label asp-for="Phone" class="form-label"></label>
                 <input asp-for="Phone" class="form-control" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="LicenseNumber" class="control-label"></label>
+            <div class="mb-3">
+                <label asp-for="LicenseNumber" class="form-label"></label>
                 <input asp-for="LicenseNumber" class="form-control" />
                 <span asp-validation-for="LicenseNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="VehicleId" class="control-label"></label>
-                <select asp-for="VehicleId" class="form-control" asp-items="ViewBag.VehicleId"></select>
+            <div class="mb-3">
+                <label asp-for="VehicleId" class="form-label"></label>
+                <select asp-for="VehicleId" class="form-select" asp-items="ViewBag.VehicleId">
+                    <option value="">-- none --</option>
+                </select>
                 <span asp-validation-for="VehicleId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="mb-3">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -46,7 +46,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-secondary" asp-action="Index">Back to list</a>
 </div>
 
 @section Scripts {

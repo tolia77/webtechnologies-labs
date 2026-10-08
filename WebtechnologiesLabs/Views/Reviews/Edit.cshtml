@@ -1,39 +1,37 @@
 @model WebtechnologiesLabs.Models.Review
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit review";
 }
 
-<h1>Edit</h1>
+<h1>Edit review</h1>
 
-<h4>Review</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Rating" class="control-label"></label>
+            <div class="mb-3">
+                <label asp-for="Rating" class="form-label"></label>
                 <input asp-for="Rating" class="form-control" />
                 <span asp-validation-for="Rating" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Text" class="control-label"></label>
+            <div class="mb-3">
+                <label asp-for="Text" class="form-label"></label>
                 <input asp-for="Text" class="form-control" />
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
+            <div class="mb-3">
+                <label asp-for="CreatedAt" class="form-label"></label>
                 <input asp-for="CreatedAt" class="form-control" />
                 <span asp-validation-for="CreatedAt" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DeliveryId" class="control-label"></label>
-                <select asp-for="DeliveryId" class="form-control" asp-items="ViewBag.DeliveryId"></select>
+            <div class="mb-3">
+                <label asp-for="DeliveryId" class="form-label"></label>
+                <select asp-for="DeliveryId" class="form-select" asp-items="ViewBag.DeliveryId"></select>
                 <span asp-validation-for="DeliveryId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="mb-3">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -41,7 +39,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-secondary" asp-action="Index">Back to list</a>
 </div>
 
 @section Scripts {
