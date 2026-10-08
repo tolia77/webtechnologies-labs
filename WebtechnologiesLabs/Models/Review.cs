@@ -11,6 +11,7 @@ public class Review
     [Display(Name = "Review")]
     public string Text { get; set; } = "";
     [Display(Name = "Date")]
+    [DataType(DataType.Date)]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     [Display(Name = "Delivery")]
