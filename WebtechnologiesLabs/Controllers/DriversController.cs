@@ -20,10 +20,19 @@ namespace WebtechnologiesLabs.Controllers
         }
 
         // GET: Drivers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var driveTrackContext = _context.Drivers.Include(d => d.Vehicle);
-            return View(await driveTrackContext.ToListAsync());
+            var drivers = from d in _context.Drivers.Include(d => d.Vehicle)
+                          select d;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                drivers = drivers.Where(d => EF.Functions.ILike(d.LastName, "%" + searchString + "%")
+                                             || EF.Functions.ILike(d.Phone, "%" + searchString + "%"));
+            }
+
+            ViewData["SearchString"] = searchString;
+            return View(await drivers.ToListAsync());
         }
 
         // GET: Drivers/Details/5

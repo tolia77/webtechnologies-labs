@@ -20,10 +20,31 @@ namespace WebtechnologiesLabs.Controllers
         }
 
         // GET: Deliveries
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(DeliveryStatus? status, string searchString)
         {
-            var driveTrackContext = _context.Deliveries.Include(d => d.Client).Include(d => d.Driver);
-            return View(await driveTrackContext.ToListAsync());
+            var deliveries = from d in _context.Deliveries.Include(d => d.Client).Include(d => d.Driver)
+                             select d;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                deliveries = deliveries.Where(d => EF.Functions.ILike(d.PickupAddress, "%" + searchString + "%")
+                                                   || EF.Functions.ILike(d.DropoffAddress, "%" + searchString + "%")
+                                                   || EF.Functions.ILike(d.PackageDescription, "%" + searchString + "%"));
+            }
+
+            if (status != null)
+            {
+                deliveries = deliveries.Where(d => d.Status == status);
+            }
+
+            var model = new DeliverySearchViewModel
+            {
+                Deliveries = await deliveries.ToListAsync(),
+                Status = status,
+                SearchString = searchString
+            };
+
+            return View(model);
         }
 
         // GET: Deliveries/Details/5
@@ -59,7 +80,7 @@ namespace WebtechnologiesLabs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PickupAddress,DropoffAddress,PackageDescription,Weight,Status,CreatedAt,DriverId,ClientId")] Delivery delivery)
+        public async Task<IActionResult> Create([Bind("Id,PickupAddress,DropoffAddress,PackageDescription,Weight,Status,CreatedAt,Deadline,DriverId,ClientId")] Delivery delivery)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +116,7 @@ namespace WebtechnologiesLabs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PickupAddress,DropoffAddress,PackageDescription,Weight,Status,CreatedAt,DriverId,ClientId")] Delivery delivery)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PickupAddress,DropoffAddress,PackageDescription,Weight,Status,CreatedAt,Deadline,DriverId,ClientId")] Delivery delivery)
         {
             if (id != delivery.Id)
             {

@@ -20,9 +20,20 @@ namespace WebtechnologiesLabs.Controllers
         }
 
         // GET: Clients
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Clients.ToListAsync());
+            var clients = from c in _context.Clients
+                          select c;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                clients = clients.Where(c => EF.Functions.ILike(c.LastName, "%" + searchString + "%")
+                                             || EF.Functions.ILike(c.Phone, "%" + searchString + "%")
+                                             || EF.Functions.ILike(c.Address, "%" + searchString + "%"));
+            }
+
+            ViewData["SearchString"] = searchString;
+            return View(await clients.ToListAsync());
         }
 
         // GET: Clients/Details/5

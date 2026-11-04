@@ -20,9 +20,19 @@ namespace WebtechnologiesLabs.Controllers
         }
 
         // GET: Vehicles
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Vehicles.ToListAsync());
+            var vehicles = from v in _context.Vehicles
+                           select v;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                vehicles = vehicles.Where(v => EF.Functions.ILike(v.Model, "%" + searchString + "%")
+                                               || EF.Functions.ILike(v.LicensePlate, "%" + searchString + "%"));
+            }
+
+            ViewData["SearchString"] = searchString;
+            return View(await vehicles.ToListAsync());
         }
 
         // GET: Vehicles/Details/5
@@ -54,7 +64,7 @@ namespace WebtechnologiesLabs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Model,LicensePlate,Capacity")] Vehicle vehicle)
+        public async Task<IActionResult> Create([Bind("Id,Model,LicensePlate,Capacity,Mileage,NextMaintenanceDate")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +96,7 @@ namespace WebtechnologiesLabs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Model,LicensePlate,Capacity")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Model,LicensePlate,Capacity,Mileage,NextMaintenanceDate")] Vehicle vehicle)
         {
             if (id != vehicle.Id)
             {

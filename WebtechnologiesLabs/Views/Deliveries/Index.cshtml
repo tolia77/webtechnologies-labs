@@ -1,4 +1,4 @@
-@model IEnumerable<WebtechnologiesLabs.Models.Delivery>
+@model DeliverySearchViewModel
 
 @{
     ViewData["Title"] = "Deliveries";
@@ -9,38 +9,56 @@
 <p>
     <a class="btn btn-primary" asp-action="Create">Add delivery</a>
 </p>
+
+<form asp-controller="Deliveries" asp-action="Index" method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+        <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<DeliveryStatus>()">
+            <option value="">All statuses</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <input type="text" asp-for="SearchString" class="form-control" placeholder="Address or package" />
+    </div>
+    <div class="col-auto">
+        <input type="submit" value="Search" class="btn btn-secondary" />
+    </div>
+</form>
+
 <table class="table table-striped table-hover">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PickupAddress)
+                @Html.DisplayNameFor(model => model.Deliveries![0].PickupAddress)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DropoffAddress)
+                @Html.DisplayNameFor(model => model.Deliveries![0].DropoffAddress)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PackageDescription)
+                @Html.DisplayNameFor(model => model.Deliveries![0].PackageDescription)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Weight)
+                @Html.DisplayNameFor(model => model.Deliveries![0].Weight)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                @Html.DisplayNameFor(model => model.Deliveries![0].Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
+                @Html.DisplayNameFor(model => model.Deliveries![0].CreatedAt)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Driver)
+                @Html.DisplayNameFor(model => model.Deliveries![0].Deadline)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Client)
+                @Html.DisplayNameFor(model => model.Deliveries![0].Driver)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deliveries![0].Client)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Deliveries!) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.PickupAddress)
@@ -59,6 +77,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Deadline)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Driver.FullName)
