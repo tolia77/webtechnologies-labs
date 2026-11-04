@@ -20,6 +20,9 @@ public class Delivery
     [Display(Name = "Created")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+    [DataType(DataType.Date)]
+    public DateTime? Deadline { get; set; }
+
     [Display(Name = "Driver")]
     public int? DriverId { get; set; }
     public Driver? Driver { get; set; }

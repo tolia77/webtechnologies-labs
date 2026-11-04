@@ -42,6 +42,11 @@
                 <span asp-validation-for="CreatedAt" class="text-danger"></span>
             </div>
             <div class="mb-3">
+                <label asp-for="Deadline" class="form-label"></label>
+                <input asp-for="Deadline" class="form-control" />
+                <span asp-validation-for="Deadline" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
                 <label asp-for="DriverId" class="form-label"></label>
                 <select asp-for="DriverId" class="form-select" asp-items="ViewBag.DriverId">
                     <option value="">-- none --</option>

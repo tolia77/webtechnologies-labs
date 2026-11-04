@@ -16,9 +16,21 @@ public static class SeedData
             return;
         }
 
-        var sprinter = new Vehicle { Model = "Mercedes-Benz Sprinter", LicensePlate = "BX1234AA", Capacity = 1500 };
-        var transit = new Vehicle { Model = "Ford Transit", LicensePlate = "BX5678BB", Capacity = 1200 };
-        var daily = new Vehicle { Model = "Iveco Daily", LicensePlate = "BX9012CC", Capacity = 3000 };
+        var sprinter = new Vehicle
+        {
+            Model = "Mercedes-Benz Sprinter", LicensePlate = "BX1234AA", Capacity = 1500,
+            Mileage = 125000, NextMaintenanceDate = DateTime.Parse("2026-12-10")
+        };
+        var transit = new Vehicle
+        {
+            Model = "Ford Transit", LicensePlate = "BX5678BB", Capacity = 1200,
+            Mileage = 87500, NextMaintenanceDate = DateTime.Parse("2027-01-20")
+        };
+        var daily = new Vehicle
+        {
+            Model = "Iveco Daily", LicensePlate = "BX9012CC", Capacity = 3000,
+            Mileage = 210300, NextMaintenanceDate = DateTime.Parse("2026-11-25")
+        };
 
         var petrenko = new Driver
         {
@@ -56,25 +68,29 @@ public static class SeedData
         {
             PickupAddress = "Khmelnytskyi, Proskurivska St, 10", DropoffAddress = "Kyiv, Khreshchatyk St, 22",
             PackageDescription = "Furniture", Weight = 350, Status = DeliveryStatus.Delivered,
-            CreatedAt = DateTime.Parse("2026-09-28 09:30"), Driver = petrenko, Client = shevchenko
+            CreatedAt = DateTime.Parse("2026-09-28 09:30"), Deadline = DateTime.Parse("2026-09-30"),
+            Driver = petrenko, Client = shevchenko
         };
         var tiles = new Delivery
         {
             PickupAddress = "Khmelnytskyi, Kamianetska St, 25", DropoffAddress = "Lviv, Horodotska St, 120",
             PackageDescription = "Building materials", Weight = 1100, Status = DeliveryStatus.InTransit,
-            CreatedAt = DateTime.Parse("2026-10-05 14:00"), Driver = kovalenko, Client = bondar
+            CreatedAt = DateTime.Parse("2026-10-05 14:00"), Deadline = DateTime.Parse("2026-10-10"),
+            Driver = kovalenko, Client = bondar
         };
         var laptops = new Delivery
         {
             PickupAddress = "Vinnytsia, Soborna St, 5", DropoffAddress = "Khmelnytskyi, Zarichanska St, 3",
             PackageDescription = "Laptops", Weight = 40, Status = DeliveryStatus.Pending,
-            CreatedAt = DateTime.Parse("2026-10-07 11:15"), Client = tkachenko
+            CreatedAt = DateTime.Parse("2026-10-07 11:15"), Deadline = DateTime.Parse("2026-10-12"),
+            Client = tkachenko
         };
         var documents = new Delivery
         {
             PickupAddress = "Khmelnytskyi, Proskurivska St, 10", DropoffAddress = "Ternopil, Ruska St, 8",
             PackageDescription = "Documents", Weight = 2, Status = DeliveryStatus.Failed,
-            CreatedAt = DateTime.Parse("2026-10-01 10:00"), Driver = melnyk, Client = shevchenko
+            CreatedAt = DateTime.Parse("2026-10-01 10:00"), Deadline = DateTime.Parse("2026-10-03"),
+            Driver = melnyk, Client = shevchenko
         };
 
         context.AddRange(sprinter, transit, daily);

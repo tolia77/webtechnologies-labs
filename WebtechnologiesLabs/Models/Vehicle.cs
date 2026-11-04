@@ -13,5 +13,12 @@ public class Vehicle
     [Display(Name = "Capacity, kg")]
     public int Capacity { get; set; }
 
+    [Display(Name = "Mileage, km")]
+    public int Mileage { get; set; }
+
+    [Display(Name = "Next maintenance")]
+    [DataType(DataType.Date)]
+    public DateTime? NextMaintenanceDate { get; set; }
+
     public Driver? Driver { get; set; }
 }

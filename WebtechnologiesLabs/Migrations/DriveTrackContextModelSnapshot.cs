@@ -69,6 +69,9 @@ namespace WebtechnologiesLabs.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<DateTime?>("Deadline")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<int?>("DriverId")
                         .HasColumnType("integer");
 
@@ -178,9 +181,15 @@ namespace WebtechnologiesLabs.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Mileage")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Model")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("NextMaintenanceDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 

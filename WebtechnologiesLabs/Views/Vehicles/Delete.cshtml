@@ -27,6 +27,18 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Capacity)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Mileage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Mileage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NextMaintenanceDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NextMaintenanceDate)
+        </dd>
     </dl>
     
     <form asp-action="Delete">
