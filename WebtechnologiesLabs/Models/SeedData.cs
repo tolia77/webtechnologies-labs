@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebtechnologiesLabs.Data;
 
@@ -5,6 +6,40 @@ namespace WebtechnologiesLabs.Models;
 
 public static class SeedData
 {
+    public static async Task InitializeUsersAsync(IServiceProvider serviceProvider)
+    {
+        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+        foreach (var role in new[] { "Administrator", "Moderator" })
+        {
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                await roleManager.CreateAsync(new IdentityRole(role));
+            }
+        }
+
+        await CreateUserAsync(userManager, "admin@drivetrack.local", "Admin123!", "Administrator");
+        await CreateUserAsync(userManager, "moderator@drivetrack.local", "Moderator123!", "Moderator");
+        await CreateUserAsync(userManager, "user@drivetrack.local", "User123!", null);
+    }
+
+    private static async Task CreateUserAsync(UserManager<IdentityUser> userManager, string email, string password, string? role)
+    {
+        if (await userManager.FindByEmailAsync(email) != null)
+        {
+            return;
+        }
+
+        var user = new IdentityUser { UserName = email, Email = email, EmailConfirmed = true };
+        await userManager.CreateAsync(user, password);
+
+        if (role != null)
+        {
+            await userManager.AddToRoleAsync(user, role);
+        }
+    }
+
     public static void Initialize(IServiceProvider serviceProvider)
     {
         using var context = new DriveTrackContext(

@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebtechnologiesLabs.Models;
 
 namespace WebtechnologiesLabs.Data;
 
-public class DriveTrackContext : DbContext
+public class DriveTrackContext : IdentityDbContext
 {
     public DriveTrackContext(DbContextOptions<DriveTrackContext> options)
         : base(options)
@@ -18,6 +19,8 @@ public class DriveTrackContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Driver>()
             .HasOne(d => d.Vehicle)
             .WithOne(v => v.Driver)

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebtechnologiesLabs.Data;
 using WebtechnologiesLabs.Models;
@@ -13,6 +14,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DriveTrackContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DriveTrackContext")));
 
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<DriveTrackContext>();
+
 var app = builder.Build();
 
 // fill the database with test data
@@ -20,6 +25,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     SeedData.Initialize(services);
+    await SeedData.InitializeUsersAsync(services);
 }
 
 // Configure the HTTP request pipeline.
@@ -33,6 +39,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 // In development, always send the current css/js. MapStaticAssets keeps the ETag from build time,
@@ -59,6 +66,10 @@ app.MapStaticAssets();
 app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}")
+    .WithStaticAssets();
+
+// login and registration pages from Identity
+app.MapRazorPages()
     .WithStaticAssets();
 
 
