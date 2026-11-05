@@ -11,7 +11,7 @@ using WebtechnologiesLabs.Models;
 
 namespace WebtechnologiesLabs.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrator")]
     public class VehiclesController : Controller
     {
         private readonly DriveTrackContext _context;
@@ -56,7 +56,6 @@ namespace WebtechnologiesLabs.Controllers
         }
 
         // GET: Vehicles/Create
-        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
@@ -67,7 +66,6 @@ namespace WebtechnologiesLabs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("Id,Model,LicensePlate,Capacity,Mileage,NextMaintenanceDate")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
@@ -80,7 +78,6 @@ namespace WebtechnologiesLabs.Controllers
         }
 
         // GET: Vehicles/Edit/5
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -101,7 +98,6 @@ namespace WebtechnologiesLabs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Model,LicensePlate,Capacity,Mileage,NextMaintenanceDate")] Vehicle vehicle)
         {
             if (id != vehicle.Id)
@@ -133,7 +129,6 @@ namespace WebtechnologiesLabs.Controllers
         }
 
         // GET: Vehicles/Delete/5
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -154,7 +149,6 @@ namespace WebtechnologiesLabs.Controllers
         // POST: Vehicles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vehicle = await _context.Vehicles.FindAsync(id);
