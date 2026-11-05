@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+
+    string Active(string controller, string? action = null) =>
+        currentController == controller && (action == null || currentAction == action) ? "active" : "";
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -7,63 +14,64 @@
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/WebtechnologiesLabs.styles.css" asp-append-version="true"/>
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DriveTrack</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
+<div class="dt-shell">
+    <nav class="dt-nav" aria-label="Main">
+        <div class="dt-nav__top">
+            <a class="dt-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <span class="dt-brand__mark">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                </span>
+                DriveTrack
+            </a>
+            <button class="dt-nav__toggle" type="button" data-bs-toggle="collapse" data-bs-target="#dt-nav-menu"
+                    aria-controls="dt-nav-menu" aria-expanded="false">Menu</button>
+        </div>
+        <div class="dt-nav__menu collapse" id="dt-nav-menu">
+            <ul class="navbar-nav dt-nav__links">
+                <li class="nav-item">
+                    <a class="nav-link @Active("Home", "Index")" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                @if (User.Identity!.IsAuthenticated)
+                {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link @Active("Deliveries")" asp-area="" asp-controller="Deliveries" asp-action="Index">Deliveries</a>
                     </li>
-                    @if (User.Identity!.IsAuthenticated)
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Deliveries" asp-action="Index">Deliveries</a>
-                        </li>
-                    }
-                    @if (User.IsInRole("Administrator"))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Drivers" asp-action="Index">Drivers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Vehicles" asp-action="Index">Vehicles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
-                        </li>
-                    }
+                }
+                @if (User.IsInRole("Administrator"))
+                {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Reviews" asp-action="Index">Reviews</a>
+                        <a class="nav-link @Active("Drivers")" asp-area="" asp-controller="Drivers" asp-action="Index">Drivers</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <a class="nav-link @Active("Vehicles")" asp-area="" asp-controller="Vehicles" asp-action="Index">Vehicles</a>
                     </li>
-                </ul>
+                    <li class="nav-item">
+                        <a class="nav-link @Active("Clients")" asp-area="" asp-controller="Clients" asp-action="Index">Clients</a>
+                    </li>
+                }
+                <li class="nav-item">
+                    <a class="nav-link @Active("Reviews")" asp-area="" asp-controller="Reviews" asp-action="Index">Reviews</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @Active("Home", "Privacy")" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </li>
+            </ul>
+            <div class="dt-nav__account">
                 <partial name="_LoginPartial" />
             </div>
         </div>
     </nav>
-</header>
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
-
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2026 - WebtechnologiesLabs - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <div class="dt-main">
+        <main role="main" class="dt-content">
+            @RenderBody()
+        </main>
+        <footer class="dt-footer">
+            &copy; 2026 - WebtechnologiesLabs - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </footer>
     </div>
-</footer>
+</div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>

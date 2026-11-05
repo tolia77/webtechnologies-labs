@@ -24,6 +24,7 @@
     </div>
 </form>
 
+<div class="dt-card table-responsive">
 <table class="table table-striped table-hover">
     <thead>
         <tr>
@@ -73,7 +74,7 @@
                 @Html.DisplayFor(modelItem => item.Weight)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                <span class="dt-status dt-status-@item.Status">@Html.DisplayFor(modelItem => item.Status)</span>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedAt)
@@ -99,3 +100,4 @@
 }
     </tbody>
 </table>
+</div>

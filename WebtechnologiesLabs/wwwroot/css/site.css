@@ -1,31 +1,533 @@
+/* DriveTrack design tokens, applied on top of stock Bootstrap. */
+:root {
+  --surface-page: #f2f4f7;
+  --surface-card: #ffffff;
+  --surface-sunken: #e6eaef;
+  --surface-hover: #e4f2ef;
+  --border: #d2d9e0;
+  --border-control: #7d8997;
+  --ink: #151d26;
+  --ink-muted: #56626f;
+  --ink-inverse: #ffffff;
+  --brand: #0c6f62;
+  --brand-hover: #095a4f;
+  --nav-bg: #151d26;
+  --nav-ink: #c3ccd6;
+  --nav-hover-bg: #222c36;
+  --nav-divider: #34404c;
+  --nav-active-bg: #095a4f;
+  --action-edit: #34404c;
+  --action-edit-hover: #222c36;
+  --action-destructive: #b3302a;
+  --action-destructive-hover: #8f231e;
+  --focus-ring: #095a4f;
+  --focus-ring-on-dark: #f2c65a;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --shadow-card: 0 1px 2px rgba(21, 29, 38, 0.08);
+  --nav-width: 232px;
+
+  --bs-body-bg: var(--surface-page);
+  --bs-body-color: var(--ink);
+  --bs-body-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --bs-font-monospace: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --bs-border-color: var(--border);
+  --bs-secondary-color: var(--ink-muted);
+  --bs-link-color-rgb: 12, 111, 98;
+  --bs-link-hover-color-rgb: 9, 90, 79;
+  --bs-danger-rgb: 179, 48, 42;
+  --bs-primary-rgb: 12, 111, 98;
+}
+
+/* Base 14px, so every Bootstrap rem follows it. */
 html {
   font-size: 14px;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+h1 {
+  margin-bottom: 16px;
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 600;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+h2 {
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: 600;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+h3,
+h4 {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
 }
 
-body {
-  margin-bottom: 60px;
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+/* Shell: sidebar and content */
+.dt-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.dt-nav {
+  position: sticky;
+  top: 0;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  width: var(--nav-width);
+  height: 100vh;
+  overflow-y: auto;
+  padding: 16px 12px;
+  background: var(--nav-bg);
+  color: var(--nav-ink);
+}
+
+.dt-nav :focus-visible {
+  outline-color: var(--focus-ring-on-dark);
+}
+
+.dt-nav__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.dt-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink-inverse);
+  text-decoration: none;
+}
+
+.dt-brand:hover {
+  color: var(--ink-inverse);
+}
+
+.dt-brand__mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: var(--brand);
+}
+
+.dt-brand__mark svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.dt-nav__toggle {
+  display: none;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--border-control);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink-inverse);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dt-nav__menu {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.dt-nav .navbar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dt-nav__links {
+  flex-grow: 1;
+}
+
+.dt-nav__account {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--nav-divider);
+}
+
+.dt-nav .nav-link {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--nav-ink);
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.dt-nav a.nav-link:hover,
+.dt-nav button.nav-link:hover {
+  background: var(--nav-hover-bg);
+  color: var(--ink-inverse);
+}
+
+.dt-nav .nav-link.active {
+  background: var(--nav-active-bg);
+  color: var(--ink-inverse);
+  font-weight: 600;
+}
+
+.dt-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dt-content {
+  flex-grow: 1;
+  padding: 32px;
+}
+
+.dt-footer {
+  padding: 16px 32px;
+  border-top: 1px solid var(--border);
+  color: var(--ink-muted);
+  font-size: 12px;
+}
+
+/* Cards: explicit ones, plus the forms and detail lists the views already have */
+.dt-card,
+main [class*="col-"] form,
+main dl.row {
+  background: var(--surface-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+
+main [class*="col-"] form {
+  margin-bottom: 16px;
+  padding: 16px;
+}
+
+main dl.row {
+  margin: 0 0 16px;
+  padding: 16px 4px;
+}
+
+main dl.row dt {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Identity's "use another service" column: no external logins are configured */
+.col-lg-offset-2 {
+  display: none;
+}
+
+main hr {
+  border-color: var(--border);
+  opacity: 1;
+}
+
+/* Tables */
+.table {
+  --bs-table-bg: var(--surface-card);
+  --bs-table-color: var(--ink);
+  --bs-table-striped-bg: var(--surface-page);
+  --bs-table-striped-color: var(--ink);
+  --bs-table-hover-bg: var(--surface-hover);
+  --bs-table-hover-color: var(--ink);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.table > :not(caption) > * > * {
+  padding: 8px 12px;
+  vertical-align: middle;
+}
+
+.table th {
+  font-weight: 600;
+}
+
+.table-hover th,
+.table-hover td:last-child {
+  white-space: nowrap;
+}
+
+.dt-card > .table {
+  margin: 0;
+}
+
+.dt-card > .table > tbody > tr:last-child > * {
+  border-bottom: 0;
+}
+
+.dt-table-narrow {
+  max-width: 720px;
+}
+
+/* Buttons: create is teal, edit is slate, delete is red */
+.btn {
+  --bs-btn-font-size: 13px;
+  --bs-btn-font-weight: 600;
+  --bs-btn-padding-y: 6.5px;
+  --bs-btn-border-radius: var(--radius-sm);
+}
+
+.btn-sm {
+  --bs-btn-padding-y: 3.25px;
+  --bs-btn-padding-x: 8px;
+  --bs-btn-font-size: 13px;
+  --bs-btn-border-radius: var(--radius-sm);
+}
+
+.btn-primary {
+  --bs-btn-color: var(--ink-inverse);
+  --bs-btn-bg: var(--brand);
+  --bs-btn-border-color: var(--brand);
+  --bs-btn-hover-color: var(--ink-inverse);
+  --bs-btn-hover-bg: var(--brand-hover);
+  --bs-btn-hover-border-color: var(--brand-hover);
+  --bs-btn-active-color: var(--ink-inverse);
+  --bs-btn-active-bg: var(--brand-hover);
+  --bs-btn-active-border-color: var(--brand-hover);
+}
+
+.btn-secondary {
+  --bs-btn-color: var(--ink-inverse);
+  --bs-btn-bg: var(--action-edit);
+  --bs-btn-border-color: var(--action-edit);
+  --bs-btn-hover-color: var(--ink-inverse);
+  --bs-btn-hover-bg: var(--action-edit-hover);
+  --bs-btn-hover-border-color: var(--action-edit-hover);
+  --bs-btn-active-color: var(--ink-inverse);
+  --bs-btn-active-bg: var(--action-edit-hover);
+  --bs-btn-active-border-color: var(--action-edit-hover);
+}
+
+.btn-danger {
+  --bs-btn-color: var(--ink-inverse);
+  --bs-btn-bg: var(--action-destructive);
+  --bs-btn-border-color: var(--action-destructive);
+  --bs-btn-hover-color: var(--ink-inverse);
+  --bs-btn-hover-bg: var(--action-destructive-hover);
+  --bs-btn-hover-border-color: var(--action-destructive-hover);
+  --bs-btn-active-color: var(--ink-inverse);
+  --bs-btn-active-bg: var(--action-destructive-hover);
+  --bs-btn-active-border-color: var(--action-destructive-hover);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--action-edit);
+  --bs-btn-border-color: var(--action-edit);
+  --bs-btn-hover-color: var(--ink-inverse);
+  --bs-btn-hover-bg: var(--action-edit);
+  --bs-btn-hover-border-color: var(--action-edit);
+  --bs-btn-active-color: var(--ink-inverse);
+  --bs-btn-active-bg: var(--action-edit-hover);
+  --bs-btn-active-border-color: var(--action-edit-hover);
+}
+
+.btn-outline-secondary {
+  --bs-btn-color: var(--ink);
+  --bs-btn-border-color: var(--border-control);
+  --bs-btn-hover-color: var(--ink);
+  --bs-btn-hover-bg: var(--surface-sunken);
+  --bs-btn-hover-border-color: var(--border-control);
+  --bs-btn-active-color: var(--ink);
+  --bs-btn-active-bg: var(--surface-sunken);
+  --bs-btn-active-border-color: var(--border-control);
+}
+
+.btn-outline-danger {
+  --bs-btn-color: var(--action-destructive);
+  --bs-btn-border-color: var(--action-destructive);
+  --bs-btn-hover-color: var(--ink-inverse);
+  --bs-btn-hover-bg: var(--action-destructive);
+  --bs-btn-hover-border-color: var(--action-destructive);
+  --bs-btn-active-color: var(--ink-inverse);
+  --bs-btn-active-bg: var(--action-destructive-hover);
+  --bs-btn-active-border-color: var(--action-destructive-hover);
+}
+
+.btn:focus-visible,
+.btn:active:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.dt-nav .btn:focus-visible {
+  outline-color: var(--focus-ring-on-dark);
+}
+
+/* Forms */
+.form-label {
+  margin-bottom: 4px;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+}
+
+.form-control,
+.form-select {
+  min-height: 36px;
+  background-color: var(--surface-card);
+  border-color: var(--border-control);
+  border-radius: var(--radius-sm);
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: var(--focus-ring);
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 0;
+  box-shadow: none;
+}
+
+main form .btn.w-100 {
+  margin-bottom: 12px;
+}
+
+.form-check-input:checked {
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+/* Delivery status: a word and a shape, never colour alone */
+.dt-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dt-status::before {
+  content: "";
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.dt-status-Pending {
+  background: var(--surface-sunken);
+  color: var(--action-edit);
+}
+
+.dt-status-Pending::before {
+  background: transparent;
+  border: 1.5px solid currentColor;
+}
+
+.dt-status-InTransit {
+  background: var(--surface-hover);
+  color: var(--brand-hover);
+}
+
+.dt-status-Delivered {
+  background: #e3f3e7;
+  color: #145c2c;
+}
+
+.dt-status-Delivered::before {
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+
+.dt-status-Failed {
+  background: #fbe8e6;
+  color: var(--action-destructive-hover);
+}
+
+.dt-status-Failed::before {
+  border-radius: 0;
+}
+
+/* The menu only collapses on a phone */
+@media (min-width: 641px) {
+  .dt-nav__menu.collapse:not(.show) {
+    display: flex;
+  }
+}
+
+/* Phone: the sidebar becomes a top bar with a Menu button */
+@media (max-width: 640.98px) {
+  .dt-shell {
+    flex-direction: column;
+  }
+
+  .dt-nav {
+    position: static;
+    width: 100%;
+    height: auto;
+    padding: 8px 16px;
+  }
+
+  .dt-nav__top {
+    margin-bottom: 0;
+  }
+
+  .dt-nav__toggle {
+    display: block;
+  }
+
+  .dt-nav__menu {
+    padding-top: 8px;
+  }
+
+  .dt-nav .nav-link {
+    padding: 12px;
+  }
+
+  .dt-content {
+    padding: 16px;
+  }
+
+  .dt-footer {
+    padding: 16px;
+  }
 }
