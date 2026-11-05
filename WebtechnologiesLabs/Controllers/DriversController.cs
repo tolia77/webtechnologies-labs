@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using WebtechnologiesLabs.Models;
 
 namespace WebtechnologiesLabs.Controllers
 {
+    [Authorize]
     public class DriversController : Controller
     {
         private readonly DriveTrackContext _context;
@@ -55,6 +57,7 @@ namespace WebtechnologiesLabs.Controllers
         }
 
         // GET: Drivers/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Id", "LicensePlate");
@@ -66,6 +69,7 @@ namespace WebtechnologiesLabs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Phone,LicenseNumber,VehicleId")] Driver driver)
         {
             if (ModelState.IsValid)
@@ -79,6 +83,7 @@ namespace WebtechnologiesLabs.Controllers
         }
 
         // GET: Drivers/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -100,6 +105,7 @@ namespace WebtechnologiesLabs.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Phone,LicenseNumber,VehicleId")] Driver driver)
         {
             if (id != driver.Id)
@@ -132,6 +138,7 @@ namespace WebtechnologiesLabs.Controllers
         }
 
         // GET: Drivers/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -153,6 +160,7 @@ namespace WebtechnologiesLabs.Controllers
         // POST: Drivers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var driver = await _context.Drivers.FindAsync(id);
